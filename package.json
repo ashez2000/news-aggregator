@@ -1,0 +1,12 @@
+{
+  "name": "news-aggregator",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  }
+}
