@@ -9,7 +9,7 @@ export const signToken = (userId) => {
 
 export const verifyToken = (token) => {
   try {
-    const payload = jwt.verify(token)
+    const payload = jwt.verify(token, JWT_SECRET)
     return payload
   } catch (err) {
     console.log(err)

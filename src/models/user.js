@@ -5,13 +5,17 @@ import { z } from 'zod'
 export const UserSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+
+  // TODO: narrow down preferences
+  preferences: z.string().array().min(1),
 })
 
 export class User {
-  constructor(email, password) {
+  constructor(email, password, preferences) {
     this.id = crypto.randomUUID()
     this.email = email
     this.password = bcrypt.hashSync(password)
+    this.preferences = preferences
   }
 
   verifyPassword(password) {

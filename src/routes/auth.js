@@ -6,9 +6,9 @@ import { userStore } from '../store/user.js'
 const router = Router()
 
 router.post('/register', (req, res) => {
-  const { email, password } = UserSchema.parse(req.body)
+  const { email, password, preferences } = UserSchema.parse(req.body)
 
-  const user = new User(email, password)
+  const user = new User(email, password, preferences)
   const token = signToken(user.id)
 
   userStore.save(user)
@@ -19,16 +19,21 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  const { email, password } = UserSchema.parse(req.body)
+  const { email, password } = UserSchema.pick({
+    email: true,
+    password: true,
+  }).parse(req.body)
 
   const user = userStore.findByEmail(email)
   if (!user) {
+    console.log('login: Email not found')
     return res.status(401).json({
       message: 'Invalid email or password',
     })
   }
 
   if (!user.verifyPassword(password)) {
+    console.log('login: Invalid password')
     return res.status(401).json({
       message: 'Invalid email or password',
     })
