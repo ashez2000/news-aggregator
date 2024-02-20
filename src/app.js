@@ -5,6 +5,7 @@ import 'express-async-errors'
 import { notFound, errorHandler } from './middlewares/error.js'
 import authRoutes from './routes/auth.js'
 import userRoutes from './routes/user.js'
+import newsRoutes from './routes/news.js'
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/news', newsRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
