@@ -74,6 +74,39 @@ router.get('/favorites', protect, (req, res) => {
   })
 })
 
+router.post('/:id/read', protect, (req, res) => {
+  const news = newsStore.findById(req.params.id)
+  if (!news) {
+    throw new AppError('News not found', 404)
+  }
+
+  const user = userStore.findById(req.user.id)
+  if (!user) {
+    throw new AppError('User not found', 404)
+  }
+
+  user.read.add(req.params.id)
+
+  res.status(200).json({
+    read: [...user.read],
+  })
+})
+
+router.get('/read', protect, (req, res) => {
+  const user = userStore.findById(req.user.id)
+  if (!user) {
+    throw new AppError('User not found', 404)
+  }
+
+  const read = [...user.read]
+
+  const news = read.map((id) => newsStore.findById(id))
+
+  res.status(200).json({
+    news,
+  })
+})
+
 router.get('/search/:keyword', (req, res) => {
   const keyword = req.params.keyword
 
