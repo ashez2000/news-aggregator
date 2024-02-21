@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { ACCESS_KEY } from '../env.js'
 import { AppError } from '../utils/app-error.js'
 import { protect } from '../middlewares/auth.js'
 import { userStore } from '../store/user.js'
@@ -20,7 +21,17 @@ router.get('/', protect, (req, res) => {
   })
 })
 
+// seeds the news
 router.post('/', async (req, res) => {
+  const accessKey = req.headers && req.headers.authorization
+  if (!accessKey) {
+    throw new AppError('Unauthorized', 401)
+  }
+
+  if (accessKey !== ACCESS_KEY) {
+    throw new AppError('Unauthorized', 401)
+  }
+
   const news = await fetchNews()
 
   newsStore.save(news)

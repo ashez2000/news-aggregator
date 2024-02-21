@@ -10,3 +10,4 @@ const load = (name) => {
 
 export const JWT_SECRET = load('JWT_SECRET')
 export const NEWS_API_KEY = load('NEWS_API_KEY')
+export const ACCESS_KEY = load('ACCESS_KEY')
