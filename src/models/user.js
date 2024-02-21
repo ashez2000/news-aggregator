@@ -6,8 +6,10 @@ export const UserSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 
-  // TODO: narrow down preferences
-  preferences: z.string().array().min(1),
+  preferences: z
+    .enum(['general', 'business', 'sports', 'technology'])
+    .array()
+    .min(1),
 })
 
 export class User {
