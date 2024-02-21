@@ -19,6 +19,12 @@ class NewsStore {
   findById(id) {
     return this._db.find((n) => n.id === id)
   }
+
+  searchNews(keyword = '') {
+    return this._db.filter(
+      (n) => n.title.contains(keyword) || n.content.contains(keyword)
+    )
+  }
 }
 
 export const newsStore = new NewsStore()

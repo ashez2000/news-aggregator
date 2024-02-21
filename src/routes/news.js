@@ -74,4 +74,14 @@ router.get('/favorites', protect, (req, res) => {
   })
 })
 
+router.get('/search/:keyword', (req, res) => {
+  const keyword = req.params.keyword
+
+  const news = newsStore.searchNews(keyword)
+
+  res.status(200).json({
+    news,
+  })
+})
+
 export default router
