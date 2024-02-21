@@ -15,6 +15,10 @@ class NewsStore {
 
     return this._db.filter((n) => categories.includes(n.category))
   }
+
+  findById(id) {
+    return this._db.find((n) => n.id === id)
+  }
 }
 
 export const newsStore = new NewsStore()

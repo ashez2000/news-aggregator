@@ -30,4 +30,37 @@ router.post('/', async (req, res) => {
   })
 })
 
+router.post('/:id/favorites', protect, (req, res) => {
+  const news = newsStore.findById(req.params.id)
+  if (!news) {
+    throw new AppError('News not found', 404)
+  }
+
+  const user = userStore.findById(req.user.id)
+  if (!user) {
+    throw new AppError('User not found', 404)
+  }
+
+  user.favorites.add(req.params.id)
+
+  res.status(200).json({
+    favorites: [...user.favorites],
+  })
+})
+
+router.get('/favorites', protect, (req, res) => {
+  const user = userStore.findById(req.user.id)
+  if (!user) {
+    throw new AppError('User not found', 404)
+  }
+
+  const favorites = [...user.favorites]
+
+  const news = favorites.map((id) => newsStore.findById(id))
+
+  res.status(200).json({
+    news,
+  })
+})
+
 export default router

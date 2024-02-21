@@ -18,6 +18,7 @@ export class User {
     this.email = email
     this.password = bcrypt.hashSync(password)
     this.preferences = preferences
+    this.favorites = new Set()
   }
 
   verifyPassword(password) {
